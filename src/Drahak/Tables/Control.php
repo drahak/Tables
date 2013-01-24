@@ -5,7 +5,7 @@ namespace Drahak\Tables;
  * Table container
  * @author Drahomír Hanák
  */
-class Container extends \Nette\ComponentModel\Container implements \ArrayAccess
+class Control extends \Nette\Application\UI\Control
 {
 
 	/**
@@ -54,50 +54,5 @@ class Container extends \Nette\ComponentModel\Container implements \ArrayAccess
 		$this[$name] = new Columns\DateTimeColumn($name, $label, $format);
 		return $this[$name];
 	}
-
-	/******************** Interface ArrayAccess ********************/
-
-	/**
-	 * Component exists
-	 * @param string $name
-	 * @return bool
-	 */
-	public function offsetExists($name)
-	{
-		return $this->getComponent($name, FALSE) !== NULL;
-	}
-
-	/**
-	 * Get component
-	 * @param string $name
-	 * @return mixed|void
-	 */
-	public function offsetGet($name)
-	{
-		return $this->getComponent($name, TRUE);
-	}
-
-	/**
-	 * Set component
-	 * @param string $name
-	 * @param \Nette\ComponentModel\IComponent $component
-	 */
-	public function offsetSet($name, $component)
-	{
-		$this->addComponent($component, $name);
-	}
-
-	/**
-	 * Unset component
-	 * @param string $name
-	 */
-	public function offsetUnset($name)
-	{
-		$component = $this->getComponent($name, FALSE);
-		if ($component !== NULL) {
-			$this->removeComponent($component);
-		}
-	}
-
 
 }

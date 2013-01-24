@@ -29,7 +29,8 @@ abstract class Column extends Component implements IColumn
 		$this->monitor('Drahak\Tables\Table');
 		parent::__construct(NULL, $name);
 		$this->cell = Html::el('td');
-		$this->label = Html::el('th', $label);
+		$this->label = Html::el('th');
+		$this->label->add(Html::el('a', $label));
 	}
 
 	/********************* IColumn interface *********************/

@@ -9,7 +9,7 @@ use Nette\ComponentModel\IContainer,
  * Table base class
  * @author Drahomír Hanák
  */
-class Table extends Container
+class Table extends Control
 {
 
 	/** Tale order options */
@@ -17,10 +17,10 @@ class Table extends Container
 	const ORDER_ASC = false;
 
 	/** @var string */
-	private $order;
+	public $order;
 
 	/** @var boolean */
-	private $sort = self::ORDER_ASC;
+	public $sort = self::ORDER_ASC;
 
 	/** @var \Nette\Utils\Html */
 	protected $element;
