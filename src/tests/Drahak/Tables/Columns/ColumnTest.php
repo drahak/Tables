@@ -47,10 +47,10 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('TESTING, IS, AWESOME', $result);
 	}
 
-	public function testOrderable()
+	public function testSortable()
 	{
-		$this->column->setOrderable(TRUE);
-		$this->assertTrue($this->column->isOrderable());
+		$this->column->setSortable(TRUE);
+		$this->assertTrue($this->column->isSortable());
 	}
 
 }
