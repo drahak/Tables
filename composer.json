@@ -1,0 +1,22 @@
+{
+	"name": "drahak/tables",
+	"description": "Drahak\\Tables - Nette framework addon for simple tables creation.",
+	"homepage": "http://www.github.com/drahak/tables",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Drahomír Hanák",
+			"homepage": "http://www.drahak.eu"
+		}
+	],
+	"config": {
+		"vendor-dir": "libs"
+	},
+	"require": {
+		"php": ">= 5.3.0",
+		"nette/nette": "@dev"
+	},
+    "require-dev": {
+        "nette/tester": "@dev"
+    }
+}
