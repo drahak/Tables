@@ -19,7 +19,7 @@ abstract class Column extends Component implements IColumn
 	protected $label;
 
 	/** @var bool */
-	protected $orderable = TRUE;
+	protected $sortable = TRUE;
 
 	/** @var callable Column content renderer */
 	public $renderer;
@@ -59,9 +59,9 @@ abstract class Column extends Component implements IColumn
 	 * Is table orderable by this column?
 	 * @return boolean
 	 */
-	public function isOrderable()
+	public function isSortable()
 	{
-		return $this->orderable;
+		return $this->sortable;
 	}
 
 	/********************* Getters & setters *********************/
@@ -121,7 +121,7 @@ abstract class Column extends Component implements IColumn
 	 */
 	public function setOrderable($orderable)
 	{
-		$this->orderable = $orderable;
+		$this->sortable = $orderable;
 		return $this;
 	}
 
@@ -130,7 +130,7 @@ abstract class Column extends Component implements IColumn
 	 */
 	public function getOrderable()
 	{
-		return $this->orderable;
+		return $this->sortable;
 	}
 
 	/**

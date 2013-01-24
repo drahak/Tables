@@ -12,7 +12,7 @@ interface IColumn
 	 * Can table be ordered by this column?
 	 * @return boolean
 	 */
-	function isOrderable();
+	function isSortable();
 
 	/**
 	 * Format content in this column
