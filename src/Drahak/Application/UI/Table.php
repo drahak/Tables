@@ -61,7 +61,7 @@ class Table extends \Nette\Application\UI\Control
 
 	/**
 	 * Set table data source
-	 * @param DataSources\IDataSource|Selection $source
+	 * @param \Drahak\Tables\DataSources\IDataSource|Selection $source
 	 * @return \Drahak\Tables\Table
 	 */
 	public function setData($source)

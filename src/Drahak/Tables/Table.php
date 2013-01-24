@@ -67,6 +67,7 @@ class Table extends Container
 	 */
 	public function setOrder($order, $sort = NULL)
 	{
+		if (!$order) return $this;
 		$this->order = $order;
 		$this->sort = $sort !== NULL ? $sort : $this->sort;
 		$this->dataSource->order($this->order, (bool)$this->sort);
@@ -81,7 +82,7 @@ class Table extends Container
 	public function setSort($sort)
 	{
 		$this->sort = (bool)$sort;
-		$this->dataSource->order($this->order, $this->sort);
+		$this->setOrder($this->order, $this->sort);
 		return $this;
 	}
 
@@ -93,6 +94,7 @@ class Table extends Container
 	 */
 	public function setLimit($limit, $offset = NULL)
 	{
+		if (!$limit) return $this;
 		$this->dataSource->limit($limit, $offset);
 		return $this;
 	}

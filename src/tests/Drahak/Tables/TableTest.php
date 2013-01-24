@@ -39,13 +39,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($this->table->order, 'name');
 	}
 
-	public function testSortSetter()
+	public function testDisabledSortSetter()
 	{
 		$this->dataSource
-			->expects($this->once())
-			->method('order')
-			->with($this->equalTo(NULL), $this->equalTo(Table::ORDER_DESC))
-			->will($this->returnSelf());
+			->expects($this->never())
+			->method('order');
 
 		$this->table->setDataSource($this->dataSource);
 		$this->table->setSort(Table::ORDER_DESC);
