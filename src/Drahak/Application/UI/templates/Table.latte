@@ -1,17 +1,19 @@
 {snippet datatable}
-{!$table->getElementPrototype()->startTag()}
+{!$control->getElementPrototype()->startTag()}
 
 	<!-- Drahak\Table header -->
 	<thead>
 		<tr>
-		{foreach $columns as $column}
+		{foreach $control->columns as $column}
 			{!$column->label->startTag()}
-				<a href="{link this!, order => $column->name}" n:class="$ajax ? 'datatable-ajax'">{$column->label->getText()}</a>
+				<a href="{link this!, order => $column->name, sort => !$control->sort}" n:class="$ajax ? 'datatable-ajax'">
+					{$column->label->getText()}
+				</a>
 				<div class="order">
-					<a href="{link this!, order => $column->name, invert => false}"
-					   n:class="$ajax ? 'datatable-ajax order-ascent' : 'order-ascent'"><span>Ascending</span></a>
-					<a href="{link this!, order => $column->name, invert => true}"
-					   n:class="$ajax ? 'datatable-ajax order-descent' : 'order-descent'"><span>Descending</span></a>
+					<a href="{link this!, order => $column->name, sort => false}"
+					   n:class="$ajax ? 'datatable-ajax order-asc' : 'order-asc'"><span>Ascending</span></a>
+					<a href="{link this!, order => $column->name, sort => true}"
+					   n:class="$ajax ? 'datatable-ajax order-desc' : 'order-desc'"><span>Descending</span></a>
 				</div>
 			{!$column->label->endTag()}
 		{/foreach}
@@ -20,8 +22,8 @@
 
 	<!-- Drahak\Tables body -->
 	<tbody>
-		<tr n:foreach="$rows as $row">
-		{foreach $columns as $column}
+		<tr n:foreach="$control->rows as $row">
+		{foreach $control->columns as $column}
 			{!$column->cell->startTag()}
 				{$column->parse(isset($row[$column->name]) ? $row[$column->name] : '', $row)}
 			{!$column->cell->endTag()}
@@ -32,7 +34,7 @@
 	<!-- Drahak\Tables footer -->
 	<tfoot n:if="$paginator">
 		<tr>
-			<td colspan="{count($columns)}">
+			<td colspan="{count($control->columns)}">
 				{if $paginator}
 					<p>Zobrazeno <strong>{$rowsFrom} - {$rowsTo}</strong> z celkových <strong>{$paginator->getItemCount()}</strong></p>
 					{control paginator}
@@ -42,5 +44,5 @@
 
 	</tfoot>
 
-{!$table->getElementPrototype()->endTag()}
+{!$control->getElementPrototype()->endTag()}
 {/snippet}
