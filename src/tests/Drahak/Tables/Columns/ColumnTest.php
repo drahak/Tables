@@ -22,9 +22,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 	public function testCreation()
 	{
 		$this->assertEquals('test', $this->column->name);
-		$this->assertInstanceOf('Nette\Utils\Html', $this->column->label);
-		$this->assertEquals('Test', $this->column->label->getText());
-		$this->assertInstanceOf('Nette\Utils\Html', $this->column->cell);
+		$this->assertInstanceOf('Nette\Utils\Html', $this->column->getLabelPrototype());
+		$this->assertEquals('Test', $this->column->getLabelPrototype()->getText());
+		$this->assertInstanceOf('Nette\Utils\Html', $this->column->getCellPrototype());
 	}
 
 	public function testParse()
