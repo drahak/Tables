@@ -19,7 +19,7 @@ class Table extends \Drahak\Tables\Table
 	public $order;
 
 	/** @persistent */
-	public $sort = FALSE;
+	public $sort = self::ORDER_ASC;
 
 	/** @persistent */
 	public $perPage = 50;

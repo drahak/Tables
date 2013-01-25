@@ -70,6 +70,25 @@ abstract class Column extends Component implements IColumn
 		return $this->sortable;
 	}
 
+	/**
+	 * Set sortable
+	 * @param bool $sortable
+	 * @return Column
+	 */
+	public function setSortable($sortable)
+	{
+		$this->sortable = $sortable;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getSortable()
+	{
+		return $this->sortable;
+	}
+
 
 	/********************* Getters & setters *********************/
 
@@ -106,25 +125,6 @@ abstract class Column extends Component implements IColumn
 	public function getColumn()
 	{
 		return $this->column;
-	}
-
-	/**
-	 * Set orderabůe
-	 * @param bool $orderable
-	 * @return Column
-	 */
-	public function setSortable($orderable)
-	{
-		$this->sortable = $orderable;
-		return $this;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getSortable()
-	{
-		return $this->sortable;
 	}
 
 	/**

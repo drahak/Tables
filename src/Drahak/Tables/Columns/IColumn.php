@@ -15,6 +15,14 @@ interface IColumn
 	function isSortable();
 
 	/**
+	 * Set this table sortable of not
+	 * @param bool $sortable
+	 * @return IColumn
+	 * @throws \Nette\NotSupportedException when sort by this column is no supported
+	 */
+	function setSortable($sortable);
+
+	/**
 	 * Format content in this column
 	 * @param mixed $value
 	 * @param mixed $rowData

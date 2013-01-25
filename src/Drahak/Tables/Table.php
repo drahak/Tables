@@ -57,6 +57,38 @@ class Table extends Control
 		return $this;
 	}
 
+	/**
+	 * Disable table sort by all columns
+	 * @return Table provides fluent interface
+	 */
+	public function disableSort()
+	{
+		foreach ($this->getColumns() as $column) {
+			try {
+				$column->setSortable(FALSE);
+			} catch (\Nette\NotSupportedException $e) {
+				/** Sort by this column is not supported */
+			}
+		}
+		return $this;
+	}
+
+	/**
+	 * Enable table sort by all columns
+	 * @return Table provides fluent interface
+	 */
+	public function enableSort()
+	{
+		foreach ($this->getColumns() as $column) {
+			try {
+				$column->setSortable(TRUE);
+			} catch (\Nette\NotSupportedException $e) {
+				/** Sort by this column is not supported */
+			}
+		}
+		return $this;
+	}
+
 	/******************** Getters & setters ********************/
 
 	/**
@@ -64,7 +96,7 @@ class Table extends Control
 	 * @param string $order
 	 * @param boolean|null $sort
 	 * @return Table
-	 * @throws \Nette\InvalidArgumentException when undefined column given
+	 * @throws \Nette\InvalidArgumentException when undefined column f
 	 */
 	public function setOrder($order, $sort = NULL)
 	{

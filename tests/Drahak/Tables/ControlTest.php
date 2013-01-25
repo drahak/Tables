@@ -10,7 +10,7 @@ use Drahak\Tables\Control;
 class ControlTest extends \PHPUnit_Framework_TestCase
 {
 
-	/** @var Control */
+	/** @var Container */
 	private $control;
 
 	public function setUp()
