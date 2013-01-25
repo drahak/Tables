@@ -66,3 +66,4 @@ You can add columns to the table by calling methods `Table#addText`, `Table#addD
 
 Installing
 ----------
+Comming soon
