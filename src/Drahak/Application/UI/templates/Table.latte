@@ -5,9 +5,9 @@
 	<thead>
 		<tr>
 		{foreach $control->columns as $column}
-			{!$column->label->startTag()}
+			{!$column->getLabelPrototype()->startTag()}
 				<a href="{link this!, order => $column->name, sort => !$control->sort}" n:class="$ajax ? 'datatable-ajax'">
-					{$column->label->getText()}
+					{$column->getLabelPrototype()->getText()}
 				</a>
 				<div class="order">
 					<a href="{link this!, order => $column->name, sort => false}"
@@ -15,7 +15,7 @@
 					<a href="{link this!, order => $column->name, sort => true}"
 					   n:class="$ajax ? 'datatable-ajax order-desc' : 'order-desc'"><span>Descending</span></a>
 				</div>
-			{!$column->label->endTag()}
+			{!$column->getLabelPrototype()->endTag()}
 		{/foreach}
 		</tr>
 	</thead>
@@ -24,9 +24,9 @@
 	<tbody>
 		<tr n:foreach="$control->rows as $row">
 		{foreach $control->columns as $column}
-			{!$column->cell->startTag()}
-				{$column->parse(isset($row[$column->name]) ? $row[$column->name] : '', $row)}
-			{!$column->cell->endTag()}
+			{!$column->getCellPrototype()->startTag()}
+				{$column->parse(isset($row[$column->column]) ? $row[$column->column] : '', $row)}
+			{!$column->getCellPrototype()->endTag()}
 		{/foreach}
 		</tr>
 	</tbody>

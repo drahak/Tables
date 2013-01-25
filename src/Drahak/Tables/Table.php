@@ -23,7 +23,7 @@ class Table extends Control
 	public $sort = self::ORDER_ASC;
 
 	/** @var \Nette\Utils\Html */
-	protected $element;
+	protected $elementPrototype;
 
 	/** @var Paginator */
 	private $paginator;
@@ -35,7 +35,7 @@ class Table extends Control
 	public function __construct(IContainer $parent = NULL, $name = NULL)
 	{
 		parent::__construct($name, $parent);
-		$this->element = Html::el('table');
+		$this->elementPrototype = Html::el('table');
 
 		// Setup table
 		$this->setup();
@@ -67,10 +67,10 @@ class Table extends Control
 	 */
 	public function setOrder($order, $sort = NULL)
 	{
-		if (!$order) return $this;
+		if (!$order || !isset($this[$order])) return $this;
 		$this->order = $order;
 		$this->sort = $sort !== NULL ? $sort : $this->sort;
-		$this->dataSource->order($this->order, (bool)$this->sort);
+		$this->dataSource->order($this[$this->order]->getColumn(), (bool)$this->sort);
 		return $this;
 	}
 
@@ -82,7 +82,7 @@ class Table extends Control
 	public function setSort($sort)
 	{
 		$this->sort = (bool)$sort;
-		$this->setOrder($this->order, $this->sort);
+		$this->setOrder($this[$this->order]->column, $this->sort);
 		return $this;
 	}
 
@@ -130,7 +130,7 @@ class Table extends Control
 	 */
 	public function getElementPrototype()
 	{
-		return $this->element;
+		return $this->elementPrototype;
 	}
 
 	/**

@@ -44,7 +44,7 @@ class DateTimeColumn extends Column
 	public function parse($value, $rowData)
 	{
 		$value = parent::parse($value, $rowData);
-		$value = \Nette\DateTime::from($value);;
+		$value = \Nette\DateTime::from($value);
 		return $value->format($this->format);
 	}
 

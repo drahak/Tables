@@ -12,11 +12,14 @@ use Nette\ComponentModel\Component,
 abstract class Column extends Component implements IColumn
 {
 
-	/** @var Html */
-	protected $cell;
+	/** @var string Database column name */
+	protected $column;
 
 	/** @var Html */
-	protected $label;
+	protected $cellPrototype;
+
+	/** @var Html */
+	protected $labelPrototype;
 
 	/** @var bool */
 	protected $sortable = TRUE;
@@ -28,10 +31,13 @@ abstract class Column extends Component implements IColumn
 	{
 		$this->monitor('Drahak\Tables\Table');
 		parent::__construct(NULL, $name);
-		$this->cell = Html::el('td');
-		$this->label = Html::el('th');
-		$this->label->add(Html::el('a', $label));
+		$this->cellPrototype = Html::el('td');
+		$this->labelPrototype = Html::el('th');
+		$this->labelPrototype->add(Html::el('a', $label));
+		$this->column = $name;
 	}
+
+
 
 	/********************* IColumn interface *********************/
 
@@ -49,7 +55,7 @@ abstract class Column extends Component implements IColumn
 
 		// Apply renderer if any
 		if ($this->renderer) {
-			$value = $this->renderer->invoke($value, $rowData, $this->cell);
+			$value = $this->renderer->invoke($value, $rowData, $this->cellPrototype);
 		}
 
 		return $value;
@@ -64,54 +70,42 @@ abstract class Column extends Component implements IColumn
 		return $this->sortable;
 	}
 
+
 	/********************* Getters & setters *********************/
 
 	/**
-	 * Get column label
-	 * @return Html
-	 */
-	public function getLabel()
-	{
-		return $this->label;
-	}
-
-	/**
-	 * Get column cell
 	 * @return \Nette\Utils\Html
 	 */
-	public function getCell()
+	public function getCellPrototype()
 	{
-		return $this->cell;
+		return $this->cellPrototype;
 	}
 
 	/**
-	 * Add class to this column
-	 * @param string $class
-	 * @return Column
+	 * @return \Nette\Utils\Html
 	 */
-	public function addClass($class)
+	public function getLabelPrototype()
 	{
-		$this->label->class[] = $class;
+		return $this->labelPrototype;
 	}
 
 	/**
-	 * Set column class
-	 * @param string $class
+	 * Set database column name
+	 * @param string $column
 	 * @return Column
 	 */
-	public function setClass($class)
+	public function setColumn($column)
 	{
-		$this->label->class = array((string)$class);
+		$this->column = $column;
 		return $this;
 	}
 
 	/**
-	 * Get column class
-	 * @return string|array
+	 * @return string
 	 */
-	public function getClass()
+	public function getColumn()
 	{
-		return $this->label->class;
+		return $this->column;
 	}
 
 	/**
@@ -119,7 +113,7 @@ abstract class Column extends Component implements IColumn
 	 * @param bool $orderable
 	 * @return Column
 	 */
-	public function setOrderable($orderable)
+	public function setSortable($orderable)
 	{
 		$this->sortable = $orderable;
 		return $this;
@@ -128,18 +122,9 @@ abstract class Column extends Component implements IColumn
 	/**
 	 * @return boolean
 	 */
-	public function getOrderable()
+	public function getSortable()
 	{
 		return $this->sortable;
-	}
-
-	/**
-	 * Get column
-	 * @return \Nette\Utils\Html
-	 */
-	public function getColumn()
-	{
-		return $this->column;
 	}
 
 	/**
