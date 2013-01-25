@@ -32,11 +32,21 @@ class TableTest extends \PHPUnit_Framework_TestCase
 			->with($this->equalTo('name'), $this->equalTo(Table::ORDER_DESC))
 			->will($this->returnSelf());
 
+		$this->table->addText('name', 'Name');
+
 		$this->table->setDataSource($this->dataSource);
 		$this->table->setOrder('name', Table::ORDER_DESC);
 
 		$this->assertEquals($this->table->sort, Table::ORDER_DESC);
 		$this->assertEquals($this->table->order, 'name');
+	}
+
+	public function testOrderByUndefinedColumn()
+	{
+		$this->setExpectedException('Nette\InvalidArgumentException');
+
+		$this->table->setDataSource($this->dataSource);
+		$this->table->setOrder('undefined', Table::ORDER_DESC);
 	}
 
 	public function testDisabledSortSetter()
