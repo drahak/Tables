@@ -64,13 +64,14 @@ class Table extends Control
 	 * @param string $order
 	 * @param boolean|null $sort
 	 * @return Table
+	 * @throws \Nette\InvalidArgumentException when undefined column given
 	 */
 	public function setOrder($order, $sort = NULL)
 	{
-		if (!$order || !isset($this[$order])) return $this;
+		if (!$order) return $this;
 		$this->order = $order;
 		$this->sort = $sort !== NULL ? $sort : $this->sort;
-		$this->dataSource->order($this[$this->order]->getColumn(), (bool)$this->sort);
+		$this->dataSource->order($this->getComponent($this->order, TRUE)->getColumn(), (bool)$this->sort);
 		return $this;
 	}
 
@@ -82,7 +83,7 @@ class Table extends Control
 	public function setSort($sort)
 	{
 		$this->sort = (bool)$sort;
-		$this->setOrder($this[$this->order]->column, $this->sort);
+		$this->setOrder($this->order, $this->sort);
 		return $this;
 	}
 
