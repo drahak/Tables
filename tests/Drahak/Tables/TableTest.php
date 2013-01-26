@@ -68,4 +68,28 @@ class TableTest extends \PHPUnit_Framework_TestCase
 		$this->table->setDataSource($this->dataSource);
 	}
 
+	public function testEnableSort()
+	{
+		$this->table->addText('name', 'Name');
+		$this->table->addText('age', 'Age');
+		$this->table['name']->sortable = FALSE;
+		$this->table['age']->sortable = FALSE;
+
+		$this->table->enableSort();
+
+		$this->assertEquals(TRUE, $this->table['name']->isSortable());
+		$this->assertEquals(TRUE, $this->table['age']->isSortable());
+	}
+
+	public function testDisableSort()
+	{
+		$this->table->addText('name', 'Name');
+		$this->table->addText('age', 'Age');
+
+		$this->table->disableSort();
+
+		$this->assertEquals(FALSE, $this->table['name']->isSortable());
+		$this->assertEquals(FALSE, $this->table['age']->isSortable());
+	}
+
 }

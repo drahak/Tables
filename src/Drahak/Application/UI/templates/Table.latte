@@ -1,21 +1,11 @@
 {snippet datatable}
-{!$control->getElementPrototype()->startTag()}
+{table $control}
 
 	<!-- Drahak\Table header -->
 	<thead>
 		<tr>
 		{foreach $control->columns as $column}
-			{!$column->getLabelPrototype()->startTag()}
-				<a href="{link this!, order => $column->name, sort => !$control->sort}" n:class="$ajax ? 'datatable-ajax'">
-					{$column->getLabelPrototype()->getText()}
-				</a>
-				<div class="order">
-					<a href="{link this!, order => $column->name, sort => false}"
-					   n:class="$ajax ? 'datatable-ajax order-asc' : 'order-asc'"><span>Ascending</span></a>
-					<a href="{link this!, order => $column->name, sort => true}"
-					   n:class="$ajax ? 'datatable-ajax order-desc' : 'order-desc'"><span>Descending</span></a>
-				</div>
-			{!$column->getLabelPrototype()->endTag()}
+			{th $column->getName() /}
 		{/foreach}
 		</tr>
 	</thead>
@@ -24,25 +14,10 @@
 	<tbody>
 		<tr n:foreach="$control->rows as $row">
 		{foreach $control->columns as $column}
-			{!$column->getCellPrototype()->startTag()}
-				{$column->parse(isset($row[$column->column]) ? $row[$column->column] : '', $row)}
-			{!$column->getCellPrototype()->endTag()}
+			{td $column->getName() /}
 		{/foreach}
 		</tr>
 	</tbody>
 
-	<!-- Drahak\Tables footer -->
-	<tfoot n:if="$paginator">
-		<tr>
-			<td colspan="{count($control->columns)}">
-				{if $paginator}
-					<p>Zobrazeno <strong>{$rowsFrom} - {$rowsTo}</strong> z celkových <strong>{$paginator->getItemCount()}</strong></p>
-					{control paginator}
-				{/if}
-			</td>
-		</tr>
-
-	</tfoot>
-
-{!$control->getElementPrototype()->endTag()}
+{/table}
 {/snippet}

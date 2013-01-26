@@ -38,7 +38,6 @@ abstract class Column extends Component implements IColumn
 	}
 
 
-
 	/********************* IColumn interface *********************/
 
 	/**
@@ -47,7 +46,7 @@ abstract class Column extends Component implements IColumn
 	 * @param mixed $rowData
 	 * @return mixed|string
 	 */
-	public function parse($value, $rowData)
+	public function render($value, $rowData)
 	{
 		if (is_array($value)) {
 			$value = implode(', ', $value);

@@ -55,4 +55,17 @@ class Control extends \Nette\Application\UI\Control
 		return $this[$name];
 	}
 
+	/**
+	 * Create image column
+	 * @param string $name
+	 * @param string $label
+	 * @param string $imageDir
+	 * @return Columns\ImageColumn
+	 */
+	public function addImage($name, $label, $imageDir = '')
+	{
+		$this[$name] = new Columns\ImageColumn($name, $label, $imageDir);
+		return $this[$name];
+	}
+
 }

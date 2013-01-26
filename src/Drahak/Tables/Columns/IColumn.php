@@ -28,6 +28,6 @@ interface IColumn
 	 * @param mixed $rowData
 	 * @return string
 	 */
-	function parse($value, $rowData);
+	function render($value, $rowData);
 
 }

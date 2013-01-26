@@ -44,7 +44,7 @@ class TableMacros extends MacroSet
 		'$_headingChildren = $_column->getLabelPrototype()->getChildren();' .
 		'$_headingChildren[0]->href = $table->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => !$_control->sort));' .
 		'echo (string)$_column->getLabelPrototype()->addAttributes(%node.array)->startTag(); ' .
-		'echo $_column->getLabelPrototype()->getHtml();' . $orderControls;
+		'echo $_column->isSortable() ? $_column->getLabelPrototype()->getHtml() : $_column->getLabelPrototype()->getText();' . $orderControls;
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
 			$node->setArgs(substr($node->args, 0, -1));
@@ -61,7 +61,8 @@ class TableMacros extends MacroSet
 	public function macroTableCell(Latte\MacroNode $node, Latte\PhpWriter $writer)
 	{
 		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word];' .
-		'$originalValue = isset($row[$_column->column]) ? $row[$_column->column] : \'\'; $value = $_column->parse($originalValue, $row);' .
+		'$originalValue = isset($row[$_column->column]) ? $row[$_column->column] : \'\'; $value = $_column->render($originalValue, $row);' .
+		'if ($value instanceof \Nette\Utils\Html && (isset($value->src) || isset($value->href))) $value->src = $basePath . \'/\' . $value->src;' .
 		'$_cellTag = (string)$_column->getCellPrototype()->setHtml($value)->addAttributes(%node.array)';
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {

@@ -48,6 +48,12 @@ class Table extends \Drahak\Tables\Table
 		$this->template->render();
 	}
 
+	public function templatePrepareFilters($template)
+	{
+		$template->registerFilter($latte = new Nette\Latte\Engine);
+		\Drahak\Tables\TableMacros::install($latte->compiler);
+	}
+
 
 	/**
 	 * @return \Nette\Localization\ITranslator

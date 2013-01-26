@@ -45,9 +45,9 @@ class TextColumn extends Column
 	 * @param mixed $rowData
 	 * @return mixed|string
 	 */
-	public function parse($value, $rowData)
+	public function render($value, $rowData)
 	{
-		$value = parent::parse($value, $rowData);
+		$value = parent::render($value, $rowData);
 
 		$value = $this->maxLength > 0 ?
 			Strings::truncate($value, $this->maxLength) :
