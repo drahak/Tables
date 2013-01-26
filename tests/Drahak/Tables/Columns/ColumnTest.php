@@ -27,23 +27,23 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Nette\Utils\Html', $this->column->getCellPrototype());
 	}
 
-	public function testParse()
+	public function testRender()
 	{
-		$result = $this->column->parse(array('testing', 'is', 'awesome'), array());
+		$result = $this->column->render(array('testing', 'is', 'awesome'), array());
 		$this->assertEquals('testing, is, awesome', $result);
 	}
 
-	public function testParseWithRenderer()
+	public function testRenderWithRenderer()
 	{
 		$test = $this;
 		$this->column->setRenderer(function($value, $rowData, $cell) use($test) {
 			$test->assertTrue(is_string($value));
-			$test->assertEquals(array(), $rowData);
+			$test->assertInstanceOf('stdClass', $rowData);
 			$test->assertInstanceOf('Nette\Utils\Html', $cell);
 			return \Nette\Utils\Strings::upper($value);
 		});
 
-		$result = $this->column->parse(array('testing', 'is', 'awesome'), array());
+		$result = $this->column->render(array('testing', 'is', 'awesome'), array());
 		$this->assertEquals('TESTING, IS, AWESOME', $result);
 	}
 

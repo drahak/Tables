@@ -34,7 +34,7 @@ class DefaultDataSourceTest extends \PHPUnit_Framework_TestCase
 		$this->table
 			->expects($this->once())
 			->method('count')
-			->will('*')
+			->with('*')
 			->will($this->returnValue(5));
 
 		$this->assertEquals(5, $this->dataSource->count());

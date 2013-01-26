@@ -18,16 +18,16 @@ class TextColumnTest extends \PHPUnit_Framework_TestCase
 		$this->column = new TextColumn('test', 'Test', 5);
 	}
 
-	public function testParseMaxLength()
+	public function testRenderMaxLength()
 	{
-		$result = $this->column->parse('Testing is awesome', array());
+		$result = $this->column->render('Testing is awesome', array());
 		$this->assertEquals("Test\xE2\x80\xA6", $result);
 	}
 
-	public function testParseNoTruncate()
+	public function testRenderWithNoTruncate()
 	{
 		$this->column->setMaxLength(0);
-		$result = $this->column->parse('Testing is awesome', array());
+		$result = $this->column->render('Testing is awesome', array());
 		$this->assertEquals('Testing is awesome', $result);
 	}
 

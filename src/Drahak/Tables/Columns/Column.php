@@ -54,7 +54,7 @@ abstract class Column extends Component implements IColumn
 
 		// Apply renderer if any
 		if ($this->renderer) {
-			$value = $this->renderer->invoke($value, $rowData, $this->cellPrototype);
+			$value = $this->renderer->invoke($value, (object)$rowData, $this->cellPrototype);
 		}
 
 		return $value;
