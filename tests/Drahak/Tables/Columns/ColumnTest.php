@@ -25,6 +25,16 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Nette\Utils\Html', $this->column->getLabelPrototype());
 		$this->assertEquals('Test', $this->column->getLabelPrototype()->getText());
 		$this->assertInstanceOf('Nette\Utils\Html', $this->column->getCellPrototype());
+		$this->assertSame($this->column->getSortable(), $this->column->isSortable());
+		$this->column->setSortable(FALSE);
+		$this->assertSame($this->column->getSortable(), $this->column->isSortable());
+	}
+
+	public function testColumnName()
+	{
+		$this->assertEquals('test', $this->column->getColumn());
+		$this->column->setColumn('testing');
+		$this->assertEquals('testing', $this->column->getColumn());
 	}
 
 	public function testRender()

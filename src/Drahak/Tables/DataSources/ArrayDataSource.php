@@ -4,7 +4,7 @@ namespace Drahak\Tables\DataSources;
 use Nette\Utils\Strings;
 
 /**
- * Array data source
+ * Array data source - always use limit!
  * @author Drahomír Hanák
  */
 class ArrayDataSource extends \Nette\Object implements IDataSource

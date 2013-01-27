@@ -48,9 +48,6 @@ class DefaultDataSource extends \Nette\Object implements IDataSource
 	 */
 	public function order($by, $invert)
 	{
-		if (!$by) {
-			throw new \Nette\InvalidArgumentException('IDataSource::order expects column name in argumne #1');
-		}
 		$this->table->order($by . ' ' . ($invert ? 'DESC' : 'ASC'));
 	}
 

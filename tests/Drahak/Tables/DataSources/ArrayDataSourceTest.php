@@ -15,13 +15,27 @@ class ArrayDataSourceTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$array = array();
-		for ($i = 1; $i < 500; $i++) {
+		$array = array(
+			array(
+				'guid' => 0,
+				'name' => 'test',
+				'account' => 1,
+				'type' => 1
+			),
+			array(
+				'guid' => 0,
+				'name' => 'test',
+				'account' => 1,
+				'type' => 1
+			),
+		);
+
+		for ($i = 2; $i < 500; $i++) {
 			$array[] = array(
 				'guid' => $i,
 				'name' => \Nette\Utils\Strings::random(10),
 				'account' => rand(1, 1000),
-				'type' => rand(0, 5)
+				'type' => rand(0, 1)
 			);
 		}
 
@@ -32,12 +46,12 @@ class ArrayDataSourceTest extends \PHPUnit_Framework_TestCase
 	{
 		$data = $this->dataSource->getData();
 		$this->assertTrue(is_array($data));
-		$this->assertEquals(499, count($data));
+		$this->assertEquals(500, count($data));
 	}
 
 	public function testCount()
 	{
-		$this->assertEquals(499, $this->dataSource->count());
+		$this->assertEquals(500, $this->dataSource->count());
 	}
 
 	public function testOrder()
@@ -56,15 +70,15 @@ class ArrayDataSourceTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->dataSource->limit(10, 0);
 		$this->assertEquals(10, count($this->dataSource->getData()));
-		$this->assertEquals(499, count($this->dataSource->getOriginalData()));
+		$this->assertEquals(500, count($this->dataSource->getOriginalData()));
 	}
 
 	public function testFilter()
 	{
 		$this->dataSource->limit(10, 0);
-		$this->dataSource->filter(array('type' => 5));
+		$this->dataSource->filter(array('type' => 1));
 		foreach ($this->dataSource->getData() as $value) {
-			$this->assertEquals(5, $value['type']);
+			$this->assertEquals(1, $value['type']);
 		}
 	}
 

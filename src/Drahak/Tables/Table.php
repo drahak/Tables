@@ -133,22 +133,6 @@ class Table extends Control
 	}
 
 	/**
-	 * @return boolean
-	 */
-	public function getSort()
-	{
-		return $this->sort;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOrder()
-	{
-		return $this->order;
-	}
-
-	/**
 	 * Get table rows
 	 * @return array|mixed
 	 */

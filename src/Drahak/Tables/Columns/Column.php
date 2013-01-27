@@ -127,15 +127,6 @@ abstract class Column extends Component implements IColumn
 	}
 
 	/**
-	 * Get table heading
-	 * @return \Nette\Utils\Html
-	 */
-	public function getHeading()
-	{
-		return $this->heading;
-	}
-
-	/**
 	 * @param callable $renderer
 	 * @return Column
 	 * @throws \Nette\InvalidArgumentException

@@ -35,7 +35,7 @@ class Table extends \Drahak\Tables\Table
 	/**
 	 * Render table control
 	 */
-	public function render()
+	public function render(array $attributes = array())
 	{
 		$this->setup();
 		$this->template->setFile(__DIR__ . '/templates/Table.latte');
@@ -43,6 +43,7 @@ class Table extends \Drahak\Tables\Table
 			$this->template->setTranslator($this->translator);
 		} catch (\Nette\InvalidArgumentException $e) {}
 
+		$this->template->attributes = $attributes;
 		$this->template->paginator = $this->getPaginator();
 		$this->template->ajax = TRUE;
 		$this->template->render();

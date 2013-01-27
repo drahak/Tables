@@ -20,6 +20,7 @@ class DateTimeColumnTest extends \PHPUnit_Framework_TestCase
 
 	public function testRender()
 	{
+		$this->assertEquals('d/m/Y', $this->column->getFormat());
 		$this->assertEquals('25/10/2012', $this->column->render(strtotime('10/25/2012 20:15:10'), array()));
 		$this->assertEquals('25/10/2012', $this->column->render(new \DateTime('10/25/2012 20:15:10'), array()));
 	}
