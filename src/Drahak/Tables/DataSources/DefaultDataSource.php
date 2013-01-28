@@ -67,6 +67,9 @@ class DefaultDataSource extends \Nette\Object implements IDataSource
 	 */
 	public function filter(array $filter)
 	{
-		$this->table->where($filter);
+		foreach ($filter as $key => $value) {
+			$value = is_numeric($value) ? $value : '%' . $value . '%';
+			$this->table->where($key . ' LIKE ?', $value);
+		}
 	}
 }
