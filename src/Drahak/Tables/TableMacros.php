@@ -21,30 +21,27 @@ class TableMacros extends MacroSet
 	{
 		$macros = new self($compiler);
 		$macros->addMacro('table',
-			'echo Drahak\Tables\TableMacros::renderTableBegin(
-				$table = $_table = $control = $_control = (is_object(%node.word) ? %node.word : $_control[%node.word]), %node.array
-			);',
-			'echo Drahak\Tables\TableMacros::renderTableEnd($_table);'
+			'$table = $_table = $control = $_control = (is_object(%node.word) ? %node.word : $_control[%node.word]);' .
+			'Nette\Latte\Macros\FormMacros::renderFormBegin($form = $_form = $table[\'filterForm\'], is_array(%node.array) ? %node.array : array());' .
+			'Drahak\Tables\TableMacros::renderTableBegin($table, %node.array);',
+
+			'Drahak\Tables\TableMacros::renderTableEnd($_table);' .
+			'Nette\Latte\Macros\FormMacros::renderFormEnd($_form);'
 		);
-		$macros->addMacro('th', array($macros, 'macroTableHeading'), '?></th><?php');
-		$macros->addMacro('td', array($macros, 'macroTableCell'), '?></td><?php');
+		$macros->addMacro('th', array($macros, 'macroTableHeading'), '$_column->getLabelPrototype()->endTag();');
+		$macros->addMacro('td', array($macros, 'macroTableCell'), '$_column->getCellPrototype()->endTag();');
+		$macros->addMacro('tdControls', array($macros, 'macroControls'));
 	}
 
 	/******************** Table macros ********************/
 
 	public function macroTableHeading(Latte\MacroNode $node, Latte\PhpWriter $writer)
 	{
-		$orderControls = ' if ($_column->isSortable()) :' .
-		'?><div class="order">
-			<a href="<?php echo $_control->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => false)); ?>"><span>Ascending</span></a>
-			<a href="<?php echo $_control->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => true)); ?>"><span>Descending</span></a>
-		</div><?php endif;';
-
-		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word];' .
+		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word]; $label = $_column->getLabelPrototype();' .
 		'$_headingChildren = $_column->getLabelPrototype()->getChildren();' .
 		'$_headingChildren[0]->href = $table->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => !$_control->sort));' .
-		'echo (string)$_column->getLabelPrototype()->addAttributes(%node.array)->startTag(); ' .
-		'echo $_column->isSortable() ? $_column->getLabelPrototype()->getHtml() : $_column->getLabelPrototype()->getText();' . $orderControls;
+		'echo (string)$label->addAttributes(%node.array)->startTag(); ' .
+		'echo $_column->isSortable() ? $label->getHtml() : $label->getText();';
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
 			$node->setArgs(substr($node->args, 0, -1));
@@ -63,7 +60,8 @@ class TableMacros extends MacroSet
 		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word];' .
 		'$originalValue = isset($row[$_column->column]) ? $row[$_column->column] : \'\'; $value = $_column->render($originalValue, $row);' .
 		'if ($value instanceof \Nette\Utils\Html && (isset($value->src) || isset($value->href))) $value->src = $basePath . \'/\' . $value->src;' .
-		'$_cellTag = (string)$_column->getCellPrototype()->setHtml($value)->addAttributes(%node.array)';
+		'$_column->getCellPrototype()->setHtml($value)->addAttributes(%node.array);' .
+		'$_cellTag = (string)$_column->getCellPrototype()';
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
 			$node->setArgs(substr($node->args, 0, -1));
@@ -71,6 +69,31 @@ class TableMacros extends MacroSet
 		} else {
 			return $writer->write($code . '->startTag(); echo $_cellTag;');
 		}
+	}
+
+	/**
+	 * Table heading controls
+	 * @param \Nette\Latte\MacroNode $node
+	 * @param \Nette\Latte\PhpWriter $writer
+	 * @return string
+	 */
+	public function macroControls(Latte\MacroNode $node, Latte\PhpWriter $writer)
+	{
+		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word]; if ($_column->isSortable()) : ?>
+		<td>
+			<div class="order">
+				<a href="<?php echo $_control->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => false)); ?>"><span>Ascending</span></a>
+				<a href="<?php echo $_control->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => true)); ?>"><span>Descending</span></a>
+			</div>
+			<?php echo $_form[$_column->getColumn()]->getControl()->addAttributes(%node.array); ?>
+		</td>
+		<?php endif;';
+
+		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
+			$node->setArgs(substr($node->args, 0, -1));
+		}
+
+		return $writer->write($code);
 	}
 
 	/******************** Table element renderers ********************/
@@ -86,7 +109,7 @@ class TableMacros extends MacroSet
 		$element = $table->getElementPrototype();
 		$element->addAttributes($attributes);
 
-		return (string)$element->startTag();
+		echo (string)$element->startTag();
 	}
 
 	/**
@@ -96,7 +119,7 @@ class TableMacros extends MacroSet
 	 */
 	public static function renderTableEnd(Table $table)
 	{
-		return $table->getElementPrototype()->endTag();
+		echo $table->getElementPrototype()->endTag();
 	}
 
 }

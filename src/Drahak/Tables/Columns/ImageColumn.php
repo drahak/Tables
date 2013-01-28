@@ -7,7 +7,7 @@ use Nette\Utils\Html;
  * Table image column
  * @author Drahomír Hanák
  */
-class ImageColumn extends Column
+class ImageColumn extends OptionColumn
 {
 
 	/** @var array */

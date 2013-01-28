@@ -8,6 +8,11 @@
 			{th $column->getName() /}
 		{/foreach}
 		</tr>
+		<tr>
+			{foreach $control->columns as $column}
+				{tdControls $column->getName() /}
+			{/foreach}
+		</tr>
 	</thead>
 
 	<!-- Drahak\Tables body -->

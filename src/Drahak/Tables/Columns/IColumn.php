@@ -20,7 +20,7 @@ interface IColumn
 	 * @return IColumn
 	 * @throws \Nette\NotSupportedException when sort by this column is no supported
 	 */
-	function setSortable($sortable);
+	function setSortable($sortable = TRUE);
 
 	/**
 	 * Format content in this column

@@ -74,7 +74,7 @@ abstract class Column extends Component implements IColumn
 	 * @param bool $sortable
 	 * @return Column
 	 */
-	public function setSortable($sortable)
+	public function setSortable($sortable = TRUE)
 	{
 		$this->sortable = $sortable;
 		return $this;

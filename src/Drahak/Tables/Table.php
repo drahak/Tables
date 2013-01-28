@@ -183,4 +183,38 @@ class Table extends Control
 		return $this;
 	}
 
+	/**
+	 * Create filter form
+	 * @return \Nette\Application\UI\Form
+	 */
+	protected function createComponentFilterForm()
+	{
+		$form = new \Nette\Application\UI\Form;
+		$form->setMethod(\Nette\Application\UI\Form::GET);
+
+		foreach ($this->getColumns() as $column) {
+			$name = $column->getColumn();
+			$label = $column->labelPrototype->getText();
+			if ($column instanceof Columns\OptionColumn && $column->options) {
+				$form->addSelect($name, $label, $column->getOptions());
+			} else {
+				$form->addText($name, $label);
+			}
+		}
+
+		$form->addSubmit('filter', 'Filter');
+		$form->onSuccess[] = $this->filterFormSubmitted;
+
+		return $form;
+	}
+
+	public function filterFormSubmitted(\Nette\Application\UI\Form $form)
+	{
+		$values = $form->getValues(TRUE);
+		foreach ($values as $key => $value) {
+			if (!$values[$key]) unset($values[$key]);
+		}
+		$this->dataSource->filter($values);
+	}
+
 }

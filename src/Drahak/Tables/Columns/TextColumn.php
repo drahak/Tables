@@ -7,7 +7,7 @@ use Nette\Utils\Strings;
  * TextColumn
  * @author Drahomír Hanák
  */
-class TextColumn extends Column
+class TextColumn extends OptionColumn
 {
 
 	/** @var int */
@@ -40,8 +40,8 @@ class TextColumn extends Column
 	}
 
 	/**
-	 * Format text column
-	 * @param string $value
+	 * Format text column cell
+	 * @param mixed $value
 	 * @param mixed $rowData
 	 * @return mixed|string
 	 */
@@ -49,6 +49,7 @@ class TextColumn extends Column
 	{
 		$value = parent::render($value, $rowData);
 
+		// Truncate content
 		$value = $this->maxLength > 0 ?
 			Strings::truncate($value, $this->maxLength) :
 			$value;

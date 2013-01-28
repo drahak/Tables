@@ -27,11 +27,6 @@ class Table extends \Drahak\Tables\Table
 	/** @var \Nette\Localization\ITranslator */
 	private $translator;
 
-	public function __construct(IContainer $parent = NULL, $name = NULL)
-	{
-		parent::__construct($name, $parent);
-	}
-
 	/**
 	 * Render table control
 	 */
@@ -45,7 +40,6 @@ class Table extends \Drahak\Tables\Table
 
 		$this->template->attributes = $attributes;
 		$this->template->paginator = $this->getPaginator();
-		$this->template->ajax = TRUE;
 		$this->template->render();
 	}
 
