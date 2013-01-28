@@ -27,6 +27,7 @@ class TextColumnTest extends \PHPUnit_Framework_TestCase
 	public function testRenderWithNoTruncate()
 	{
 		$this->column->setMaxLength(0);
+		$this->assertEquals(0, $this->column->getMaxLength());
 		$result = $this->column->render('Testing is awesome', array());
 		$this->assertEquals('Testing is awesome', $result);
 	}

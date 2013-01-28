@@ -37,6 +37,13 @@ class ControlTest extends \PHPUnit_Framework_TestCase
 		$this->assertContains($column, $this->control->getColumns());
 	}
 
+	public function testAddImageColumn()
+	{
+		$column = $this->control->addImage('test', 'Test');
+		$this->assertInstanceOf('Drahak\Tables\Columns\ImageColumn', $column);
+		$this->assertContains($column, $this->control->getColumns());
+	}
+
 	public function testTableArrayAccess()
 	{
 		$column = $this->createTextColumn();

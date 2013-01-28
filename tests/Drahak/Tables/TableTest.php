@@ -92,4 +92,58 @@ class TableTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(FALSE, $this->table['age']->isSortable());
 	}
 
+	public function testSetLimit()
+	{
+		$this->dataSource
+			->expects($this->once())
+			->method('limit')
+			->with(10, 0);
+
+		$this->table->setDataSource($this->dataSource);
+		$this->table->setLimit(10, 0);
+	}
+
+	public function testGetRows()
+	{
+		$this->dataSource
+			->expects($this->once())
+			->method('getData')
+			->will($this->returnValue(array()));
+
+		$this->table->setDataSource($this->dataSource);
+		$this->assertEquals(array(), $this->table->getRows());
+	}
+
+	public function testElement()
+	{
+		$table = $this->table->getElementPrototype();
+		$this->assertInstanceOf('Nette\Utils\Html', $table);
+		$this->assertEquals('table', $table->getName());
+	}
+
+	public function testPaginator()
+	{
+		$paginator = $this->getMock('Nette\Utils\Paginator');
+
+		// Data source expectation
+		$this->table->setDataSource($this->dataSource);
+		$this->dataSource
+			->expects($this->once())
+			->method('limit')
+			->with(10, 0);
+
+		// Paginator expectation
+		$paginator->expects($this->once())
+			->method('getItemsPerPage')
+			->will($this->returnValue(10));
+
+		$paginator->expects($this->once())
+			->method('getOffset')
+			->will($this->returnValue(0));
+
+		$this->table->setPaginator($paginator);
+		$this->assertInstanceOf('Nette\Utils\Paginator', $this->table->getPaginator());
+		$this->assertSame($paginator, $this->table->getPaginator());
+	}
+
 }
