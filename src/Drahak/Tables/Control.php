@@ -68,17 +68,4 @@ class Control extends \Nette\Application\UI\Control
 		return $this[$name];
 	}
 
-	/**
-	 * Create option column
-	 * @param string $name
-	 * @param string $label
-	 * @param array $options
-	 * @return Columns\OptionColumn
-	 */
-	public function addOption($name, $label, array $options)
-	{
-		$this[$name] = new Columns\OptionColumn($name, $label, $options);
-		return $this[$name];
-	}
-
 }

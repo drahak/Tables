@@ -2,7 +2,6 @@
 namespace Drahak\Application\UI;
 
 use Nette,
-	Nette\ComponentModel\IContainer,
 	Nette\Localization\ITranslator;
 
 /**

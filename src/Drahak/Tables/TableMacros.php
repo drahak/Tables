@@ -22,7 +22,7 @@ class TableMacros extends MacroSet
 		$macros = new self($compiler);
 		$macros->addMacro('table',
 			'$table = $_table = $control = $_control = (is_object(%node.word) ? %node.word : $_control[%node.word]);' .
-			'Nette\Latte\Macros\FormMacros::renderFormBegin($form = $_form = $table[\'filterForm\'], is_array(%node.array) ? %node.array : array());' .
+			'Nette\Latte\Macros\FormMacros::renderFormBegin($form = $_form = $table[\'filterForm\'], array());' .
 			'Drahak\Tables\TableMacros::renderTableBegin($table, %node.array);',
 
 			'Drahak\Tables\TableMacros::renderTableEnd($_table);' .
@@ -41,11 +41,13 @@ class TableMacros extends MacroSet
 		'$_headingChildren = $_column->getLabelPrototype()->getChildren();' .
 		'$_headingChildren[0]->href = $table->link(\'this!\', array(\'order\' => $_column->name, \'sort\' => !$_control->sort));' .
 		'echo (string)$label->addAttributes(%node.array)->startTag(); ' .
-		'echo $_column->isSortable() ? $label->getHtml() : $label->getText();';
+		'$label = $_column->isSortable() ? $label->getHtml() : $label->getText();';
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
 			$node->setArgs(substr($node->args, 0, -1));
-			return $writer->write($code . '$_column->getLabelPrototype()->endTag();');
+			return $writer->write($code . 'echo $label; $_column->getLabelPrototype()->endTag();');
+		} else {
+			return $writer->write($code);
 		}
 	}
 
@@ -59,7 +61,7 @@ class TableMacros extends MacroSet
 	{
 		$code = '$_column = is_object(%node.word) ? %node.word : $_table[%node.word];' .
 		'$originalValue = isset($row[$_column->column]) ? $row[$_column->column] : \'\'; $value = $_column->render($originalValue, $row);' .
-		'if ($value instanceof \Nette\Utils\Html && (isset($value->src) || isset($value->href))) $value->src = $basePath . \'/\' . $value->src;' .
+		'if ($value instanceof \Nette\Utils\Html && (isset($value->src))) $value->src = $basePath . DIRECTORY_SEPARATOR . $value->src;' .
 		'$_column->getCellPrototype()->setHtml($value)->addAttributes(%node.array);' .
 		'$_cellTag = (string)$_column->getCellPrototype()';
 

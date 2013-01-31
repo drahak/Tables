@@ -16,6 +16,9 @@ class Table extends Control
 	const ORDER_DESC = true;
 	const ORDER_ASC = false;
 
+	/** @persistent */
+	public $filter = array();
+
 	/** @var string */
 	public $order;
 
@@ -54,6 +57,11 @@ class Table extends Control
 		if ($this->getPaginator()) {
 			$this->setLimit($this->getPaginator()->getItemsPerPage(), $this->getPaginator()->getOffset());
 		}
+
+		if ($this->filter) {
+			$this->dataSource->filter($this->filter);
+		}
+
 		return $this;
 	}
 
@@ -196,16 +204,28 @@ class Table extends Control
 			$name = $column->getColumn();
 			$label = $column->labelPrototype->getText();
 			if ($column instanceof Columns\OptionColumn && $column->options) {
-				$form->addSelect($name, $label, $column->getOptions());
+				$form->addSelect($name, $label, $column->getOptions())
+					->setPrompt($label);
 			} else {
 				$form->addText($name, $label);
 			}
+			$form[$name]->getControlPrototype()->placeholder = $label;
 		}
 
+		$form->setDefaults($this->filter);
+
 		$form->addSubmit('filter', 'Filter');
+		$form->addSubmit('reset', 'Reset')
+			->onClick[] = $this->resetFilters;
 		$form->onSuccess[] = $this->filterFormSubmitted;
 
 		return $form;
+	}
+
+	public function resetFilters()
+	{
+		$this->filter = array();
+		$this->redirect('this');
 	}
 
 	public function filterFormSubmitted(\Nette\Application\UI\Form $form)
@@ -214,7 +234,8 @@ class Table extends Control
 		foreach ($values as $key => $value) {
 			if (!$values[$key]) unset($values[$key]);
 		}
-		$this->dataSource->filter($values);
+		$this->filter = $values;
+		$this->redirect('this');
 	}
 
 }
