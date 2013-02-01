@@ -63,13 +63,13 @@ class TableMacros extends MacroSet
 		'$originalValue = isset($row[$_column->column]) ? $row[$_column->column] : \'\'; $value = $_column->render($originalValue, $row);' .
 		'if ($value instanceof \Nette\Utils\Html && (isset($value->src))) $value->src = $basePath . DIRECTORY_SEPARATOR . $value->src;' .
 		'$_column->getCellPrototype()->setHtml($value)->addAttributes(%node.array);' .
-		'$_cellTag = (string)$_column->getCellPrototype()';
+		'echo $_column->getCellPrototype()->startTag();';
 
 		if ($node->isEmpty = (substr($node->args, -1) === '/')) {
 			$node->setArgs(substr($node->args, 0, -1));
-			return $writer->write($code . '; echo $_cellTag;');
+			return $writer->write($code . 'echo $value; echo $_column->getCellPrototype()->endTag();');
 		} else {
-			return $writer->write($code . '->startTag(); echo $_cellTag;');
+			return $writer->write($code);
 		}
 	}
 
