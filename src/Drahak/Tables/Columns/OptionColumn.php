@@ -60,7 +60,7 @@ abstract class OptionColumn extends Column
 			}
 		}
 
-		return isset($this->options[$value]) ? $this->options[$value] : $value;
+		return is_string($value) && isset($this->options[$value]) ? $this->options[$value] : $value;
 	}
 
 

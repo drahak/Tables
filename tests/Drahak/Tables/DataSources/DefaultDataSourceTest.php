@@ -65,7 +65,7 @@ class DefaultDataSourceTest extends \PHPUnit_Framework_TestCase
 		$this->table
 			->expects($this->once())
 			->method('where')
-			->with(array('name' => 'test'));
+			->with('name LIKE ?', '%test%');
 
 		$this->dataSource->filter(array('name' => 'test'));
 	}
