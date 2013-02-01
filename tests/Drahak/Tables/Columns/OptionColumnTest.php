@@ -36,6 +36,13 @@ class OptionColumnTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($otpions, $this->column->getOptions());
 	}
 
+	public function testRenderOptionsWithNonStringValue()
+	{
+		$el = \Nette\Utils\Html::el('a');
+		$result = $this->column->render($el, array());
+		$this->assertSame($el, $result);
+	}
+
 	public function testWitoutOptions()
 	{
 		$otpions = array('test', 'has', 'processed');
